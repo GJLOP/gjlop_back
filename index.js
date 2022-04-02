@@ -1,4 +1,4 @@
-const {ServerController} = require('./server/ServerController');
+const {ServerController} = require('./ServerController');
 
 // init server
 new ServerController();

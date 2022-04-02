@@ -1,8 +1,8 @@
-const {env} = require("../shared/env")
+const {env} = require("./shared/env")
 const express = require('express');
 const socketIO = require('socket.io');
 const http = require('http');
-const {Game} = require('../game/Game');
+const {Game} = require('./game/Game');
 
 class ServerController {
     frontUrl = env === "dev" ? "*" : "https://glop.legeay.dev";
@@ -40,7 +40,7 @@ class ServerController {
             this.server.listen(3000);
         }
         this.app.get('/', (req, res) => {
-            res.sendFile('../' + __dirname + '/index.html');
+            res.sendFile(__dirname + '/index.html');
         });
 
         this.initUserConnections();
