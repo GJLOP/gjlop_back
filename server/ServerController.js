@@ -5,7 +5,7 @@ const http = require('http');
 const {Game} = require('../game/Game');
 
 class ServerController {
-    frontUrl = env === "dev" ? "http://localhost:3001" : "https://glop.legeay.dev";
+    frontUrl = env === "dev" ? "http://77.196.65.4" : "https://glop.legeay.dev";
     io;
     server;
     app;
