@@ -75,13 +75,10 @@ class Game {
     getGameStatus = () => {
         const status = {
             isGameStarted: this.isGameStarted,
-            playerDict : {},
+            playerList : [...this.playerList],
             eventList : [...this.eventList]
         };
         this.updateGame();
-        for (const player of this.playerList) {
-            status.playerDict[player.id] = player;
-        }
         this.eventList = [];
         return status;
     }

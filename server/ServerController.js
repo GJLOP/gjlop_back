@@ -52,10 +52,10 @@ class ServerController {
         this.statusEmitInterval = setInterval(() => {
             if(!this.game.isGameStarted) {
                 clearInterval(this.statusEmitInterval);
-                setTimeout(this.start, 30000);
+                setTimeout(() => this.start(), 30000);
             }
             this.io.emit('status', this.game.getGameStatus());
-        }, 50); // 8
+        }, 16); // 8
     }
 
     initUserConnections = () => {
@@ -67,12 +67,14 @@ class ServerController {
             if(this.game.playerList.length === 0) {
                 this.start();
             }
+
             const player = this.game.addPlayer(playerId);
             socket.emit('whois', player);
 
             socket.on('disconnect', () => {
                 this.game.removePlayer(playerId);
                 console.log(`A user has disconnected : ${playerId}`);
+                this.io.emit('status', this.game.getGameStatus());
             })
 
             socket.on('event', event => {
