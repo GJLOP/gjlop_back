@@ -4,8 +4,8 @@ const {Hit, Shoot} = require("./Event");
 const {Vector} = require("../shared/utils");
 
 class Game {
-    static width = 1000;
-    static height = 1000;
+    static width = 64;
+    static height = 36;
     isGameStarted;
     playerList = [];
     eventList = [];
@@ -26,20 +26,27 @@ class Game {
         while(this.playerList?.filter(p => !p.id === player.id)?.some(p => p.position?.isMostlyEqual(player.position)))
 
         this.playerList = [...this.playerList, player];
+
+        return player;
     }
 
-    getRandomPos = () => Vector.getRandomVector(Game.width, Game.height);
+    getRandomPos = () => {
+        const vector = Vector.getRandomVector(50, 20);
+        vector.x += Game.width / 2;
+        vector.y += Game.height / 2;
+        return vector;
+    }
 
     removePlayer = (id) => {
         this.playerList = this.playerList.filter(p => p.id !== id);
     }
 
-    updatePlayerPosition = (id, position) => {
-        this.getPlayer(id).updatePosition(position);
+    updatePlayerState = (id, playerState) => {
+        this.getPlayer(id).updateState(playerState);
     }
 
     playEvent = (id, newEvent) => {
-        switch (newEvent.type) {
+        switch (newEvent.eventType) {
             case "hit":
                 const hit = new Hit(id, newEvent);
                 this.eventList.push(hit);

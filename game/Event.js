@@ -1,12 +1,11 @@
 const {Vector} = require('../shared/utils');
-const {Player} = require('../player/Player');
 
 class Event {
-    type ;
+    eventType ;
     playerId;
 
-    constructor(playerId=null, type= null) {
-        this.type = type;
+    constructor(playerId=null, eventType= null) {
+        this.eventType = eventType;
         this.playerId = playerId;
     }
 }
@@ -27,7 +26,7 @@ class Hit extends Event {
     direction;
     impactCoord;
 
-    constructor(playerId, {type= "hit", victimId = null, direction = new Vector(), impactCoord = new Vector()}) {
+    constructor(playerId, {type= "hit", victimId = null, direction = new Vector(), impactCoord = new Vector()}={}) {
         super(playerId, type);
         this.victimId = victimId;
         this.direction = direction;

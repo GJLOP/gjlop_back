@@ -1,4 +1,4 @@
-const {Player} = require('../player/Player');
+const safe = 5;
 
 class Vector {
     x;
@@ -17,14 +17,27 @@ class Vector {
     }
 
     isMostlyEqual = (vector) =>
-        this.x >= vector.x - Player.SAFE_DISTANCE
-        && this.x <= vector.x + Player.SAFE_DISTANCE
-        && this.y >= vector.y - Player.SAFE_DISTANCE
-        && this.y <= vector.y + Player.SAFE_DISTANCE
+        this.x >= vector.x - safe
+        && this.x <= vector.x + safe
+        && this.y >= vector.y - safe
+        && this.y <= vector.y + safe
+}
+
+class Vector3 {
+    x;
+    y;
+    z;
+
+    constructor(x, y, z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
 }
 
 
 
 module.exports = {
-    Vector
+    Vector,
+    Vector3
 };

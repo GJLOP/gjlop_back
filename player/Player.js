@@ -1,8 +1,7 @@
-const {Vector} = require('../shared/utils');
+const {Vector, Vector3} = require('../shared/utils');
 const {nameList} = require('../shared/names');
 
 class Player {
-    static SAFE_DISTANCE = 5;
     id;
     name;
     color;
@@ -25,14 +24,14 @@ class Player {
 
     addToScore = (nb) => this.score += nb ;
 
-    updatePosition = ({position, aimingAngleRad}) => {
+    updateState = ({position, aimingAngleRad}) => {
         this.position = new Vector(position);
         this.aimingAngleRad = aimingAngleRad;
     }
 
     setRandomColor = () => {
-        const color = Math.floor(Math.random()*16777215).toString(16);
-        this.color = `${color}#`;
+        const rand = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+        this.color = new Vector3(rand(50,255), rand(50,255), rand(50,255));
     }
 
     setRandomName = () => this.name = nameList[Math.floor(Math.random() * nameList.length)];

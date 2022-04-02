@@ -5,7 +5,7 @@ const http = require('http');
 const {Game} = require('../game/Game');
 
 class ServerController {
-    frontUrl = env === "dev" ? "http://77.196.65.4" : "https://glop.legeay.dev";
+    frontUrl = env === "dev" ? "http://localhost:3001" : "https://glop.legeay.dev";
     io;
     server;
     app;
@@ -17,12 +17,16 @@ class ServerController {
         this.server = http.createServer(this.app);
         this.io = socketIO(this.server, {
             cors: {
-                origin: this.frontUrl,
-                methods: ["GET", "POST"]
+                origin: "*",
+                methods: ["GET", "POST"],
+                allowedHeaders: ["*"],
+                credentials: false
             }
         });
         this.game = new Game();
         this.init();
+
+        console.log(this.frontUrl);
     }
 
     init = () => {
@@ -63,24 +67,20 @@ class ServerController {
             if(this.game.playerList.length === 0) {
                 this.start();
             }
-            this.game.addPlayer(playerId);
+            const player = this.game.addPlayer(playerId);
+            socket.emit('whois', player);
 
             socket.on('disconnect', () => {
                 this.game.removePlayer(playerId);
                 console.log(`A user has disconnected : ${playerId}`);
             })
 
-            socket.on('whois', () => {
-                const player = this.game.getPlayer(playerId);
-                socket.emit('whois', player);
-            })
-
             socket.on('event', event => {
                 this.game.playEvent(playerId, event);
             })
 
-            socket.on('position', position => {
-                this.game.updatePlayerPosition(playerId, position);
+            socket.on('playerState', playerState => {
+                this.game.updatePlayerState(playerId, playerState);
             })
         });
     }
