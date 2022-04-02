@@ -1,3 +1,5 @@
+import {v4 as uuidv4} from 'uuid';
+
 const Vector = require('./utils');
 
 export default class Player {
@@ -8,7 +10,11 @@ export default class Player {
     // orientation = new Vector(0,0);
 
     constructor() {
+        this.init();
+    }
 
+    init = () => {
+        this.id = uuidv4();
     }
 
 }
