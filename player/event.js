@@ -1,10 +1,10 @@
-const Vector = require('./utils');
-const Player = require('./player');
+const {Vector} = require('./utils');
+const {Player} = require('./player');
 
-class Evenement {
+class Event {
 }
 
-class Shoot extends Evenement {
+class Shoot extends Event {
     constructor() {
         super();
     }
@@ -14,7 +14,7 @@ class Shoot extends Evenement {
 
 }
 
-class Hit extends Evenement {
+class Hit extends Event {
     constructor() {
         super();
     }
@@ -24,4 +24,7 @@ class Hit extends Evenement {
     impactCoord;
 }
 
-export {Shoot, Hit};
+module.exports = {
+    Shoot,
+    Hit
+};

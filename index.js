@@ -3,7 +3,7 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-const Player = require('./player/player');
+const {Player} = require('./player/player');
 
 
 if (typeof(PhusionPassenger) !== 'undefined') {

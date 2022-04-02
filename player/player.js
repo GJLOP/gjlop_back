@@ -1,8 +1,7 @@
-import {v4 as uuidv4} from 'uuid';
+const { v4: uuidv4 } = require('uuid');
+const {Vector} = require('./utils');
 
-const Vector = require('./utils');
-
-export default class Player {
+class Player {
     id;
     name;
     color;
@@ -18,6 +17,11 @@ export default class Player {
     }
 
 }
+
+
+module.exports = {
+    Player
+};
 
 
 
