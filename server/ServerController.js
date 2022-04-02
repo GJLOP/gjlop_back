@@ -17,7 +17,7 @@ class ServerController {
         this.server = http.createServer(this.app);
         this.io = socketIO(this.server, {
             cors: {
-                origin: "*",
+                origin: this.frontUrl,
                 methods: ["GET", "POST"],
                 allowedHeaders: ["*"],
                 credentials: false
