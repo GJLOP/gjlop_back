@@ -40,7 +40,7 @@ class ServerController {
             this.server.listen(3000);
         }
         this.app.get('/', (req, res) => {
-            res.sendFile(__dirname + '/index.html');
+            res.sendFile('../' + __dirname + '/index.html');
         });
 
         this.initUserConnections();
