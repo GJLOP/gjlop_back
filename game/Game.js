@@ -4,8 +4,8 @@ const {Hit, Shoot, Infest} = require("./Event");
 const {Vector} = require("../shared/utils");
 
 class Game {
-    static width = 64;
-    static height = 36;
+    static radius = 90/2;
+
     isGameStarted;
     playerList = [];
     eventList = [];
@@ -36,16 +36,22 @@ class Game {
     }
 
     setUserPosition = (player) => {
-        do { player.position = this.getRandomPos(); }
-        while(this.playerList?.filter(p => !p.id === player.id)
-            ?.some(p => p.position?.isMostlyEqual(player.position)));
+        // do { player.position = this.getRandomPos(); }
+        // while(this.playerList?.filter(p => !p.id === player.id)
+        //     ?.some(p => p.position?.isMostlyEqual(player.position)));
+
+        player.position = this.getRandomPos();
+        console.log("player.position", )
     }
 
     getRandomPos = () => {
-        const vector = Vector.getRandomVector(50, 20);
-        vector.x += Game.width / 2;
-        vector.y += Game.height / 2;
-        return vector;
+        const randomAngleRad = Math.random() * (Math.PI * 2);
+        const randomDistanceFromCentre = Math.random() * Game.radius * 0.9;
+
+        return {
+            x: Math.cos(randomAngleRad) * randomDistanceFromCentre,
+            y: Math.sin(randomAngleRad) * randomDistanceFromCentre
+        }
     }
 
     removePlayer = (id) => {
