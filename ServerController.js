@@ -56,7 +56,7 @@ class ServerController {
         }
 
         const endTime = new Date().getTime();
-        setTimeout(this.gameStatusUpdate, 16 - (endTime - startTime));
+        setTimeout(this.gameStatusUpdate, 12 - (endTime - startTime));
     }
 
     start = () => {
