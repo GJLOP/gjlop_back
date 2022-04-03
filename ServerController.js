@@ -46,16 +46,22 @@ class ServerController {
         this.initUserConnections();
     }
 
+    gameStatusUpdate = () => {
+        const startTime = new Date().getTime();
+
+        this.io.emit('status', this.game.getGameStatus());
+        if(!this.game.isGameStarted) {
+            setTimeout(() => this.start(), 30000);
+            return;
+        }
+
+        const endTime = new Date().getTime();
+        setTimeout(this.gameStatusUpdate, 16 - (endTime - startTime));
+    }
+
     start = () => {
         this.game.startGame();
-
-        this.statusEmitInterval = setInterval(() => {
-            if(!this.game.isGameStarted) {
-                clearInterval(this.statusEmitInterval);
-                setTimeout(() => this.start(), 30000);
-            }
-            this.io.emit('status', this.game.getGameStatus());
-        }, 16); // 8
+        this.gameStatusUpdate();
     }
 
     initUserConnections = () => {
