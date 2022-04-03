@@ -98,12 +98,11 @@ class ServerController {
                 this.game.removePlayer(playerId);
                 console.log(`A user has disconnected : ${playerId}`);
                 console.log(`there is ${this.game.playerList.length} players`);
-                this.io.emit('status', this.game.getGameStatus());
             })
 
             socket.on('event', event => {
                 this.game.playEvent(playerId, event);
-                console.log('evenement recu : ', event);
+                console.log('evenement recu : ', event.eventType);
             })
 
             socket.on('playerState', playerState => {

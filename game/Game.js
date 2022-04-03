@@ -57,16 +57,18 @@ class Game {
 
     playEvent = (id, newEvent) => {
         console.log(newEvent.eventType)
+        const player = this.getPlayer(id);
+
         switch (newEvent.eventType) {
             case "hit":
                 const hit = new Hit(id, newEvent);
 
-                if(this.getPlayer(hit.victimId)?.isZombie !== undefined) {
+                if(player?.isZombie !== undefined) {
                     this.eventList.push(hit);
-                    this.getPlayer(hit.victimId).isZombie = true;
+                    player.isZombie = true;
                     this.playerList.filter(p => !p.isZombie)
                         .map(p => p.addToScore(1));
-                    const shooter = this.getPlayer(id);
+                    const shooter = player;
                     if(shooter.isZombie) {
                         shooter.addToScore(1);
                     }
@@ -82,10 +84,10 @@ class Game {
                 this.getPlayer(infest.victimId).isZombie = true;
                 this.playerList.filter(p => !p.isZombie)
                     .map(p => p.addToScore(1));
-                const zombie = this.getPlayer(id);
-                if(zombie.isZombie) {
+
+                if(player.isZombie) {
                     console.log("isZombie");
-                    zombie.addToScore(1);
+                    player.addToScore(1);
                 }
                 break;
             case "shoot":

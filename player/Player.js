@@ -8,6 +8,7 @@ class Player {
     position = new Vector();
     score;
     isZombie;
+    ammunitionsLeft = 0;
     aimingAngleRad = 0;
 
     constructor(id) {
