@@ -50,7 +50,7 @@ class ServerController {
 
         this.io.emit('status', this.game.getGameStatus());
         if(!this.game.isGameStarted) {
-            setTimeout(() => this.start(), 30000);
+            setTimeout(() => this.start(), 15000);
             return;
         }
 
