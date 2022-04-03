@@ -10,6 +10,7 @@ class ServerController {
     server;
     app;
     game;
+    isInterludePhase = false;
 
     constructor() {
         this.app = express();
@@ -27,6 +28,8 @@ class ServerController {
 
         console.log(this.frontUrl);
     }
+
+
 
     init = () => {
         if (typeof(PhusionPassenger) !== 'undefined') {
@@ -46,39 +49,55 @@ class ServerController {
     }
 
     gameStatusUpdate = () => {
+        if(this.isNoUserConnected()) {
+            console.log("gameStatusUpdate stopped")
+            this.game.stopGame();
+            return;
+        }
+
         const startTime = new Date().getTime();
 
         this.io.emit('status', this.game.getGameStatus());
-        if(!this.game.isGameStarted) {
-            setTimeout(() => this.start(), 15000);
-            return;
+
+        if(!this.game.isGameStarted && !this.isInterludePhase) {
+            this.isInterludePhase = true;
+
+            console.log("Game as Ended");
+            setTimeout(() => {
+                console.log("New Game starting")
+                this.game.startGame();
+            }, 3000);
+
+        }
+        if(this.game.isGameStarted){
+            this.isInterludePhase = false;
         }
 
         const endTime = new Date().getTime();
         setTimeout(this.gameStatusUpdate, 12 - (endTime - startTime));
     }
 
-    start = () => {
-        this.game.startGame();
-        this.gameStatusUpdate();
-    }
-
     initUserConnections = () => {
         this.io.on('connection', (socket) => {
 
             const playerId = socket.id;
+            const player = this.game.addPlayer(playerId);
 
             console.log(`new player : ${playerId}`);
-            if(this.game.playerList.length === 0) {
-                this.start();
+            if(this.isOneUserConnected()) {
+                this.game.startGame();
+                console.log("New Game starting")
+                this.gameStatusUpdate();
+                console.log("gameStatusUpdate started");
             }
 
-            const player = this.game.addPlayer(playerId);
+            console.log(`there is ${this.game.playerList.length} players`)
             socket.emit('whois', player);
 
             socket.on('disconnect', () => {
                 this.game.removePlayer(playerId);
                 console.log(`A user has disconnected : ${playerId}`);
+                console.log(`there is ${this.game.playerList.length} players`);
                 this.io.emit('status', this.game.getGameStatus());
             })
 
@@ -93,8 +112,8 @@ class ServerController {
         });
     }
 
-
-
+    isOneUserConnected = () => this.game.playerList.length === 1;
+    isNoUserConnected = () => this.game.playerList.length === 0;
 }
 
 module.exports = {

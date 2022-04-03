@@ -16,18 +16,28 @@ class Game {
     }
 
     startGame = () => {
+        this.eventList = [];
         this.isGameStarted = true;
-        this.playerList.forEach(p => p.init());
+        this.playerList.forEach(p => {
+            p.init();
+        });
+    }
+
+    stopGame = () => {
+        this.isGameStarted = false;
     }
 
     addPlayer = (id) => {
         const player = new Player(id);
-        do { player.position = this.getRandomPos(); }
-        while(this.playerList?.filter(p => !p.id === player.id)?.some(p => p.position?.isMostlyEqual(player.position)))
-
+        this.setUserPosition(player);
         this.playerList = [...this.playerList, player];
-
         return player;
+    }
+
+    setUserPosition = (player) => {
+        do { player.position = this.getRandomPos(); }
+        while(this.playerList?.filter(p => !p.id === player.id)
+            ?.some(p => p.position?.isMostlyEqual(player.position)));
     }
 
     getRandomPos = () => {
@@ -46,31 +56,41 @@ class Game {
     }
 
     playEvent = (id, newEvent) => {
+        console.log(newEvent.eventType)
         switch (newEvent.eventType) {
             case "hit":
                 const hit = new Hit(id, newEvent);
-                this.eventList.push(hit);
-                this.getPlayer(hit.victimId).isZombie = true;
-                this.playerList.filter(p => !p.isZombie)
-                    .map(p => p.addToScore(1));
-                const shooter = this.getPlayer(id);
-                if(shooter.isZombie) {
-                    shooter.addToScore(1);
+
+                if(this.getPlayer(hit.victimId)?.isZombie !== undefined) {
+                    this.eventList.push(hit);
+                    this.getPlayer(hit.victimId).isZombie = true;
+                    this.playerList.filter(p => !p.isZombie)
+                        .map(p => p.addToScore(1));
+                    const shooter = this.getPlayer(id);
+                    if(shooter.isZombie) {
+                        shooter.addToScore(1);
+                    }
                 }
                 break;
             case "infest":
                 const infest = new Infest(id, newEvent);
+                if(this.getPlayer(infest.victimId).isZombie) {
+                    break;
+                }
+
                 this.eventList.push(infest);
+                this.getPlayer(infest.victimId).isZombie = true;
                 this.playerList.filter(p => !p.isZombie)
                     .map(p => p.addToScore(1));
                 const zombie = this.getPlayer(id);
                 if(zombie.isZombie) {
+                    console.log("isZombie");
                     zombie.addToScore(1);
                 }
                 break;
             case "shoot":
                 this.eventList.push(new Shoot(id, newEvent));
-
+                break
             default:
                 break
         }
