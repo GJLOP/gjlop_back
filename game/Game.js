@@ -25,6 +25,7 @@ class Game {
 
     stopGame = () => {
         this.isGameStarted = false;
+        this.playerList.forEach(p => p.isZombie = false);
     }
 
     addPlayer = (id) => {
@@ -102,7 +103,7 @@ class Game {
     updateGame = () => {
         if(this.playerList.length === 0
             || this.playerList.every(p => p.isZombie)
-            || this.playerList.every(p => p.ammunitionsLeft === 0)) {
+            || (this.playerList.every(p => p.ammunitionsLeft === 0) && !this.playerList.some(p => p.isZombie))) {
             this.isGameStarted = false;
             this.eventList = [];
         }
