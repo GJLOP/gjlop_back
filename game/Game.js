@@ -68,8 +68,10 @@ class Game {
                     zombie.addToScore(1);
                 }
                 break;
+            case "shoot":
+                this.eventList.push(new Shoot(id, newEvent));
+
             default:
-                this.eventList.push(new Shoot(newEvent));
                 break
         }
 

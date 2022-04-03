@@ -84,6 +84,7 @@ class ServerController {
 
             socket.on('event', event => {
                 this.game.playEvent(playerId, event);
+                console.log('evenement recu : ', event);
             })
 
             socket.on('playerState', playerState => {
