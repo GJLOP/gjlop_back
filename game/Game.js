@@ -62,10 +62,11 @@ class Game {
         switch (newEvent.eventType) {
             case "hit":
                 const hit = new Hit(id, newEvent);
+                const victim = this.getPlayer(hit.victimId);
+                this.eventList.push(hit);
 
-                if(player?.isZombie !== undefined) {
-                    this.eventList.push(hit);
-                    player.isZombie = true;
+                if(victim?.isZombie !== undefined && !victim.isZombie) {
+                    victim.isZombie = true;
                     this.playerList.filter(p => !p.isZombie)
                         .map(p => p.addToScore(1));
                     const shooter = player;
@@ -96,11 +97,12 @@ class Game {
             default:
                 break
         }
-
     }
 
     updateGame = () => {
-        if(this.playerList.length === 0 || this.playerList.every(p => p.isZombie)) {
+        if(this.playerList.length === 0
+            || this.playerList.every(p => p.isZombie)
+            || this.playerList.every(p => p.ammunitionsLeft === 0)) {
             this.isGameStarted = false;
             this.eventList = [];
         }

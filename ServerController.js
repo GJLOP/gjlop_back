@@ -29,8 +29,6 @@ class ServerController {
         console.log(this.frontUrl);
     }
 
-
-
     init = () => {
         if (typeof(PhusionPassenger) !== 'undefined') {
             console.log('listening... passenger')
@@ -63,6 +61,7 @@ class ServerController {
             this.isInterludePhase = true;
 
             console.log("Game as Ended");
+            this.game.playerList.sort((a, b) => b.score - a.score).forEach(p => console.log(`${p.name} - ${p.score}`))
             setTimeout(() => {
                 console.log("New Game starting")
                 this.game.startGame();
@@ -113,6 +112,7 @@ class ServerController {
 
     isOneUserConnected = () => this.game.playerList.length === 1;
     isNoUserConnected = () => this.game.playerList.length === 0;
+
 }
 
 module.exports = {

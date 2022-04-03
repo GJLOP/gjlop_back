@@ -25,9 +25,10 @@ class Player {
 
     addToScore = (nb) => this.score += nb ;
 
-    updateState = ({position, aimingAngleRad}) => {
+    updateState = ({position, aimingAngleRad, ammunitionsLeft}) => {
         this.position = new Vector(position);
         this.aimingAngleRad = aimingAngleRad;
+        this.ammunitionsLeft = ammunitionsLeft;
     }
 
     setRandomColor = () => {
