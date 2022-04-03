@@ -10,7 +10,6 @@ class ServerController {
     server;
     app;
     game;
-    statusEmitInterval;
 
     constructor() {
         this.app = express();

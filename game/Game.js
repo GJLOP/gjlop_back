@@ -1,6 +1,6 @@
 
 const {Player} = require('../player/Player');
-const {Hit, Shoot} = require("./Event");
+const {Hit, Shoot, Infest} = require("./Event");
 const {Vector} = require("../shared/utils");
 
 class Game {
@@ -56,6 +56,16 @@ class Game {
                 const shooter = this.getPlayer(id);
                 if(shooter.isZombie) {
                     shooter.addToScore(1);
+                }
+                break;
+            case "infest":
+                const infest = new Infest(id, newEvent);
+                this.eventList.push(infest);
+                this.playerList.filter(p => !p.isZombie)
+                    .map(p => p.addToScore(1));
+                const zombie = this.getPlayer(id);
+                if(zombie.isZombie) {
+                    zombie.addToScore(1);
                 }
                 break;
             default:

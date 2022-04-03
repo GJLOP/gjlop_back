@@ -34,7 +34,17 @@ class Hit extends Event {
     }
 }
 
+class Infest extends Event {
+    victimId;
+
+    constructor(playerId, {type= "infest", victimId = null}={}) {
+        super(playerId, type);
+        this.victimId = victimId;
+    }
+}
+
 module.exports = {
     Shoot,
-    Hit
+    Hit,
+    Infest
 };
