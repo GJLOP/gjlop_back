@@ -65,7 +65,7 @@ class ServerController {
             setTimeout(() => {
                 console.log("New Game starting")
                 this.game.startGame();
-            }, 3000);
+            }, 17500);
 
         }
         if(this.game.isGameStarted){
