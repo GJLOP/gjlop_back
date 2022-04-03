@@ -27,12 +27,14 @@ class Hit extends Event {
     victimId;
     direction;
     impactCoord;
+    newZombie;
 
-    constructor(playerId, {type= "hit", victimId = null, direction = new Vector(), impactCoord = new Vector()}={}) {
+    constructor(playerId, {type= "hit", victimId = null, direction = new Vector(), impactCoord = new Vector(), newZombie = false}={}) {
         super(playerId, type);
         this.victimId = victimId;
         this.direction = direction;
         this.impactCoord = impactCoord;
+        this.newZombie = newZombie;
     }
 }
 

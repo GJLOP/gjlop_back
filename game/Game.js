@@ -64,10 +64,10 @@ class Game {
             case "hit":
                 const hit = new Hit(id, newEvent);
                 const victim = this.getPlayer(hit.victimId);
-                this.eventList.push(hit);
 
                 if(victim?.isZombie !== undefined && !victim.isZombie) {
                     victim.isZombie = true;
+                    hit.newZombie = true;
                     this.playerList.filter(p => !p.isZombie)
                         .map(p => p.addToScore(1));
                     const shooter = player;
@@ -75,6 +75,9 @@ class Game {
                         shooter.addToScore(1);
                     }
                 }
+
+                this.eventList.push(hit);
+
                 break;
             case "infest":
                 const infest = new Infest(id, newEvent);
