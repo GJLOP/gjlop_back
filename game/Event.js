@@ -13,11 +13,13 @@ class Event {
 class Shoot extends Event {
     origin;
     direction;
+    effectiveRange;
 
-    constructor(playerId, {type= "shoot", origin= new Vector(), direction= new Vector()}={}) {
+    constructor(playerId, {type= "shoot", origin= new Vector(), direction= new Vector(), effectiveRange}={}) {
         super(playerId, type);
         this.origin = origin;
         this.direction = direction;
+        this.effectiveRange = effectiveRange;
     }
 }
 
