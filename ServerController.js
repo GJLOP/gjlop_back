@@ -17,7 +17,8 @@ class ServerController {
         this.server = http.createServer(this.app);
         this.io = socketIO(this.server, {
             cors: {
-                origin: ["https://glop.legeay.dev"]
+                origin: ["https://glop.legeay.dev"],
+                credentials: true
             }
         });
         this.game = new Game();
