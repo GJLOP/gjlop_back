@@ -5,7 +5,7 @@ const http = require('http');
 const {Game} = require('./game/Game');
 
 class ServerController {
-    frontUrl = env === "dev" ? "*" : "https://glop.legeay.dev";
+    // frontUrl = env === "dev" ? ["*"] : ["https://glop.legeay.dev"];
     io;
     server;
     app;
@@ -17,10 +17,7 @@ class ServerController {
         this.server = http.createServer(this.app);
         this.io = socketIO(this.server, {
             cors: {
-                origin: this.frontUrl,
-                methods: ["GET", "POST"],
-                allowedHeaders: ["*"],
-                credentials: false
+                origin: ["https://glop.legeay.dev"]
             }
         });
         this.game = new Game();
