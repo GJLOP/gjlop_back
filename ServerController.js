@@ -68,8 +68,9 @@ class ServerController {
             this.isInterludePhase = false;
         }
 
-        const endTime = new Date().getTime();
-        setTimeout(this.gameStatusUpdate, 8 - (endTime - startTime));
+        const runtime = new Date().getTime() - startTime;
+
+        setTimeout(this.gameStatusUpdate, 9 - (runtime <= 9 ? runtime : 9));
     }
 
     initUserConnections = () => {
