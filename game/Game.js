@@ -36,12 +36,7 @@ class Game {
     }
 
     setUserPosition = (player) => {
-        // do { player.position = this.getRandomPos(); }
-        // while(this.playerList?.filter(p => !p.id === player.id)
-        //     ?.some(p => p.position?.isMostlyEqual(player.position)));
-
         player.position = this.getRandomPos();
-        console.log("player.position", )
     }
 
     getRandomPos = () => {
@@ -63,7 +58,6 @@ class Game {
     }
 
     playEvent = (id, newEvent) => {
-        console.log(newEvent.eventType)
         const player = this.getPlayer(id);
 
         switch (newEvent.eventType) {
@@ -97,7 +91,6 @@ class Game {
                     .map(p => p.addToScore(1));
 
                 if(player.isZombie) {
-                    console.log("isZombie");
                     player.addToScore(1);
                 }
                 break;

@@ -25,8 +25,6 @@ class ServerController {
         });
         this.game = new Game();
         this.init();
-
-        console.log(this.frontUrl);
     }
 
     init = () => {
@@ -61,11 +59,11 @@ class ServerController {
             this.isInterludePhase = true;
 
             console.log("Game as Ended");
-            this.game.playerList.sort((a, b) => b.score - a.score).forEach(p => console.log(`${p.name} - ${p.score}`))
+
             setTimeout(() => {
                 console.log("New Game starting")
                 this.game.startGame();
-            }, 17500);
+            }, 12000);
 
         }
         if(this.game.isGameStarted){
@@ -73,7 +71,7 @@ class ServerController {
         }
 
         const endTime = new Date().getTime();
-        setTimeout(this.gameStatusUpdate, 12 - (endTime - startTime));
+        setTimeout(this.gameStatusUpdate, 8 - (endTime - startTime));
     }
 
     initUserConnections = () => {
@@ -82,7 +80,7 @@ class ServerController {
             const playerId = socket.id;
             const player = this.game.addPlayer(playerId);
 
-            console.log(`new player : ${playerId}`);
+            console.log(`new player : ${playerId} - ${player.name}`);
             if(this.isOneUserConnected()) {
                 this.game.startGame();
                 console.log("New Game starting")
@@ -101,7 +99,6 @@ class ServerController {
 
             socket.on('event', event => {
                 this.game.playEvent(playerId, event);
-                console.log('evenement recu : ', event.eventType);
             })
 
             socket.on('playerState', playerState => {
