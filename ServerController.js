@@ -5,7 +5,7 @@ const http = require('http');
 const {Game} = require('./game/Game');
 
 class ServerController {
-    frontUrl = env === "dev" ? "*" : "glop.legeay.dev";
+    frontUrl = env === "dev" ? "*" : "https://glop.legeay.dev";
     io;
     server;
     app;
