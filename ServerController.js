@@ -5,7 +5,7 @@ const http = require('http');
 const {Game} = require('./game/Game');
 
 class ServerController {
-    // frontUrl = env === "dev" ? ["*"] : ["https://glop.legeay.dev"];
+    frontUrl = env === "dev" ? "*" : ["https://glop.legeay.dev"];
     io;
     server;
     app;
@@ -17,8 +17,8 @@ class ServerController {
         this.server = http.createServer(this.app);
         this.io = socketIO(this.server, {
             cors: {
-                origin: ["https://glop.legeay.dev"],
-                credentials: true
+                origin: this.frontUrl,
+                credentials: false
             }
         });
         this.game = new Game();
@@ -70,7 +70,7 @@ class ServerController {
 
         const runtime = new Date().getTime() - startTime;
 
-        setTimeout(this.gameStatusUpdate, 9 - (runtime <= 9 ? runtime : 9));
+        setTimeout(this.gameStatusUpdate, 10 - (runtime <= 10 ? runtime : 10));
     }
 
     initUserConnections = () => {

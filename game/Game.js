@@ -35,6 +35,10 @@ class Game {
         return player;
     }
 
+    removePlayer = (id) => {
+        this.playerList = this.playerList.filter(p => p.id !== id);
+    }
+
     setUserPosition = (player) => {
         player.position = this.getRandomPos();
     }
@@ -49,10 +53,6 @@ class Game {
         }
     }
 
-    removePlayer = (id) => {
-        this.playerList = this.playerList.filter(p => p.id !== id);
-    }
-
     updatePlayerState = (id, playerState) => {
         this.getPlayer(id).updateState(playerState);
     }
@@ -63,10 +63,12 @@ class Game {
         switch (newEvent.eventType) {
             case "hit":
                 const hit = new Hit(id, newEvent);
-                const victim = this.getPlayer(hit.victimId);
+                const victimHit = this.getPlayer(hit.victimId);
 
-                if(victim?.isZombie !== undefined && !victim.isZombie) {
-                    victim.isZombie = true;
+                if(victimHit?.isZombie !== undefined
+                    && !victimHit.isZombie) {
+
+                    victimHit.isZombie = true;
                     hit.newZombie = true;
                     this.playerList.filter(p => !p.isZombie)
                         .map(p => p.addToScore(1));
@@ -81,12 +83,14 @@ class Game {
                 break;
             case "infest":
                 const infest = new Infest(id, newEvent);
-                if(this.getPlayer(infest.victimId).isZombie) {
+                const victimInfest = this.getPlayer(infest.victimId);
+                if(victimInfest?.isZombie === undefined
+                    || victimInfest.isZombie) {
                     break;
                 }
 
                 this.eventList.push(infest);
-                this.getPlayer(infest.victimId).isZombie = true;
+                victimInfest.isZombie = true;
                 this.playerList.filter(p => !p.isZombie)
                     .map(p => p.addToScore(1));
 
@@ -114,8 +118,10 @@ class Game {
     getGameStatus = () => {
         const status = {
             isGameStarted: this.isGameStarted,
-            playerList : [...this.playerList],
-            eventList : [...this.eventList]
+            playerList : this.playerList,
+            eventList : this.eventList,
+            nbPlayers: this.playerList.length,
+            nbEvents: this.eventList.length
         };
         this.updateGame();
         this.eventList = [];
