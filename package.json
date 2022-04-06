@@ -9,5 +9,9 @@
     "scripts": {
         "start": "node index.js",
         "dev": "nodemon index.js"
+    },
+    "optionalDependencies": {
+        "bufferutil": "^4.0.6",
+        "utf-8-validate": "^5.0.9"
     }
 }
